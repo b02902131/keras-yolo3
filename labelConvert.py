@@ -31,16 +31,17 @@ index_list=  [f.split('.')[0] for f in file_list if f.split('.')[-1] == 'txt']
 for index in index_list:
     label_file = index + ".txt"
     img_file = index + ".jpg"
-    out_file.write(img_file)
+    out_file.write(os.path.join(fish_folder, img_file))
     im = Image.open(os.path.join(fish_folder, img_file))
     img_w, img_h = im.size
     rect_file = open(os.path.join(fish_folder, label_file))
     for rect in rect_file:
         out_file.write(" ")
         objClass, x, y, width, height = rect.split(" ")
-        x_min = float(x) * img_w
-        y_min = float(y) * img_h
-        x_max = (float(x) + float(width)) * img_w
-        y_max = (float(y) + float(height)) * img_h
+        x_min = int(float(x) * img_w)
+        y_min = int(float(y) * img_h)
+        x_max = int((float(x) + float(width)) * img_w)
+        y_max = int((float(y) + float(height)) * img_h)
         out_file.write(str(x_min)+","+str(y_min)+","+str(x_max)+","+str(y_max))
+        out_file.write(","+objClass)
     out_file.write("\n")
